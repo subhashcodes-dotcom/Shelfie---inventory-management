@@ -1,182 +1,210 @@
-# Shelfie---inventory-management
-Shelfie is a smart inventory management app built with Python, Flask, and machine learning. It features inventory tracking, sales and purchases, demand forecasting, anomaly detection, slow-moving stock analysis, and intelligent reorder recommendations to support data-driven inventory decisions.
+# Smart Inventory Intelligence — Submission-Ready Project
 
-Shelfie --- Smart Inventory Management
-Shelfie is a Python-based inventory management web application that
-combines everyday stock operations with data analysis and
-machine-learning-assisted decision support. It is designed as a college
-Data Science using Python project.
-The application helps users manage product stock and transactions,
-review sales patterns, identify possible slow-moving inventory, forecast
-demand, and calculate suggested reorder quantities.
-Features
-Inventory operations
-View and search product variants.
-Track available stock and product details.
-Record sales and purchases.
-Manage suppliers.
-Support stock transfers between operational locations.
-Use role-based access for Admin, Manager, and Staff accounts.
-Data science and decision support
-Explore historical sales and inventory data with EDA charts.
-Forecast demand using a Random Forest regression model.
-Identify unusual inventory behaviour using an Isolation Forest
-model.
-Flag possible slow-moving stock by comparing current stock with
-recorded historical sales.
-Calculate suggested order quantities using forecast demand, safety
-stock, current stock, and incoming stock.
-Review notifications and decision recommendations.
-Interface
-Shelfie branding and watermark.
-Light and dark themes.
-Warehouse search and filters.
-Barcode/scanner interface with manual SKU entry fallback.
-Inventory assistant for supported inventory questions.
-> **Note:** Features depend on the included code and available data. The
-> scanner's camera support can vary by browser and device.
-Technology stack
-Python --- application logic and data processing
-Flask --- web application and routes
-SQLite --- local prototype database
-Pandas / NumPy --- data preparation and analysis
-scikit-learn --- demand forecasting and anomaly detection
-HTML / CSS / JavaScript --- user interface
-Matplotlib --- exploratory data analysis charts
-Project structure
-``` text
-Shelfie/
-├── app.py                    # Flask application and page routes
-├── model.py                  # Forecasting, anomaly detection, decision logic
-├── bootstrap_db.py            # Database setup and data import
-├── generate_eda_assets.py     # EDA chart generation
-├── requirements.txt           # Python dependencies
-├── CODE_GUIDE.md              # Feature-wise code guide
-├── README.md                  # Project overview and setup
-├── data/                      # Project dataset files, if included
-├── templates/                 # HTML/Jinja templates
-└── static/                    # CSS, JavaScript, branding, charts
+**Course:** 22CSE554 — Data Science Using Python  
+**Institution:** Nitte Meenakshi Institute of Technology (NMIT)  
+**Academic Year:** 2026–27
+
+## 1. Project purpose
+
+Smart Inventory Intelligence is a complete Flask + SQLite inventory application in which Data Science is used to move inventory management from recording stock to **monitoring → analysing → predicting → deciding → acting**.
+
+It is designed around the project objectives and workflow in the submitted presentation:
+
+- product and stock management
+- purchases, sales, returns and damaged-stock adjustments
+- operational stock transfers
+- transaction cleaning and feature engineering
+- demand analysis and forecasting
+- stockout/replenishment risk
+- anomaly detection
+- slow-moving inventory
+- slow-moving stock analysis
+- supplier intelligence
+- intelligent notifications
+- rule-based inventory assistant
+- role-based access
+
+## 2. What is actually implemented
+
+### Operations
+- Dashboard with live KPIs and priority actions
+- Warehouse catalog with active-category filtering, search and pagination
+- Add product and opening stock
+- POS/order workflow
+- Stock adjustment, customer return and damage adjustment
+- Purchase-order list and receiving workflow
+- Supplier performance and supplier creation
+- Inter-store stock transfer
+
+### Data Science
+- Pandas-based transaction loading and cleaning
+- Daily/weekly/monthly demand aggregation
+- Calendar and lag features
+- 7-day demand forecasting using Random Forest regression
+- Model comparison: Linear Regression, Decision Tree, Random Forest and Gradient Boosting
+- MAE, RMSE and R² evaluation
+- Isolation Forest anomaly model
+- Feature correlation analysis
+- Decision engine for reorder quantity and stockout risk
+
+### EDA
+The Analytics & EDA module contains Python-generated charts for:
+
+1. Daily sales trend
+2. Monthly demand
+3. Weekly demand
+4. Category-wise sales
+5. Top products
+6. Stock distribution histogram
+7. Historical demand distribution histogram
+8. Supplier fulfillment
+9. Slow-moving stock analysis
+10. Payment-method mix
+11. Stock vs historical demand scatter plot
+12. Feature correlation heatmap
+13. Slow-moving product table
+14. Model evaluation table
+
+Charts are generated with Matplotlib on the server, so the EDA page does not depend on an external chart CDN.
+
+### Decision Center
+For every analysed variant the system calculates:
+
+`Suggested order = 7-day forecast + safety stock − current stock − incoming stock`
+
+The user can open a **Decision Explanation** page and create a purchase order directly from a recommendation.
+
+### Inventory Assistant
+The assistant contains **50+ supported operational questions** across:
+
+- stock
+- sales
+- demand
+- replenishment
+- slow-moving stock
+- anomalies
+- suppliers
+- locations
+- catalog/system information
+
+It is intentionally rule-based: natural-language phrases are mapped to SQL queries and existing Data Science calculations. It is not presented as a generative-AI service.
+
+### Access control
+- **Admin:** employees, suppliers, products, model/system management and approvals
+- **Manager:** stock, purchasing, suppliers, decisions and reports
+- **Staff:** sales, stock updates, scans and operational views
+
+Passwords are stored using salted PBKDF2-HMAC-SHA256 rather than plain text.
+
+## 3. Dataset used
+
+The supplied dataset is used as the historical foundation. The included database contains:
+
+- 825 products
+- 2,475 variants
+- 2,475 inventory records
+- 200 sales orders
+- 579 sales line items
+- 100 purchase orders
+- 353 purchase-order line items
+- 100 suppliers
+- 200 customers
+- 52 brands
+- 25 category records
+
+Only **3 categories are represented by products** in the supplied catalog. The Warehouse page therefore shows active categories rather than displaying a long list of empty taxonomy categories.
+
+The historical dataset does not contain store/location IDs. The project therefore maintains a clearly separated operational location layer for the promised transfer feature: Central Warehouse, Store A and Store B. It does not claim that the historical sales records originated from those locations.
+
+## 4. Demo accounts
+
+| Role | Username | Password |
+|---|---|---|
+| Admin | `admin` | `admin123` |
+| Manager | `manager` | `manager123` |
+| Staff | `staff` | `staff123` |
+
+Change the password from **My Profile** after first login if required.
+
+## 5. Run the application
+
+### Windows
+
+```text
+run.bat
 ```
-The exact files and folders may vary slightly by project package
-version.
-Getting started
-1. Requirements
-Python 3.10 or later is recommended.
-`pip`
-A modern web browser
-2. Download the project
-Clone the repository:
-``` bash
-git clone https://github.com/YOUR-USERNAME/shelfie-inventory-management.git
-cd shelfie-inventory-management
-```
-Or download the repository as a ZIP from GitHub and extract it.
-3. Create and activate a virtual environment
-Windows (PowerShell or Command Prompt):
-``` bash
-python -m venv .venv
-.venv\Scripts\activate
-```
-macOS / Linux:
-``` bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-4. Install dependencies
-``` bash
-python -m pip install --upgrade pip
+
+or:
+
+```bash
 pip install -r requirements.txt
-```
-5. Initialize the database
-If the project package includes the database bootstrap script, run:
-``` bash
-python bootstrap_db.py
-```
-This step depends on the dataset files being present in the expected
-`data/` location. Follow any additional setup instructions in
-`CODE_GUIDE.md` if the package version uses a different initialization
-flow.
-6. Start Shelfie
-``` bash
 python app.py
 ```
-Open the local address printed by Flask in your terminal. In many
-configurations, this is:
-``` text
+
+Open:
+
+```text
 http://127.0.0.1:5000
 ```
-Stop the server with `Ctrl+C`.
-How the reorder recommendation works
-Shelfie uses the following inventory calculation:
-``` text
-Suggested order = Forecast demand + Safety stock
-                  - Current stock - Incoming stock
+
+### Linux / WSL
+
+```bash
+chmod +x run.sh
+./run.sh
 ```
-For example:
-Forecast demand: 100 units
-Safety stock: 20 units
-Current stock: 35 units
-Incoming stock: 10 units
-``` text
-Suggested order = 100 + 20 - 35 - 10
-                = 75 units
+
+The application automatically creates/initialises the SQLite database when started through `python app.py`.
+
+If the database needs to be reset to the supplied dataset:
+
+```bash
+python bootstrap_db.py
+python app.py
 ```
-The suggested quantity should be treated as a decision-support
-recommendation. It assumes the counted stock is usable and incoming
-stock will arrive in time. In practice, the result should be checked
-against supplier lead time, pack sizes, and business rules.
-Dataset and project scope
-The application uses product and transaction data for technical products
-such as smartphones and their variants. The operational location layer
-used for stock-transfer demonstrations is separate from historical
-source data when the source dataset does not provide store identifiers.
-The slow-moving-stock view is intended to flag products that have
-current inventory but comparatively low recorded historical sales. A
-flag is a prompt for review, not proof that a product is obsolete:
-interpretation depends on the sales period, stock age, and recent
-demand.
-The project focuses on technical-product inventory. Perishable-goods
-expiry management is not a core feature.
-Machine-learning notes
-Random Forest Regressor: used for demand forecasting.
-Isolation Forest: used to flag potential anomalies.
-Model results depend on the amount, quality, and distribution of the
-available transaction data. Do not interpret evaluation metrics as
-evidence of production-level accuracy. Retraining and validation should
-be performed when the dataset changes.
-Security and data handling
-Do not commit passwords, API keys, `.env` files, personal
-information, or a live database containing private records.
-Review `.gitignore` before publishing the repository.
-Change any demo credentials and secret-key settings before public
-deployment.
-The included SQLite setup is intended for a local academic
-prototype. A production deployment would need stronger
-configuration, access controls, backups, and an appropriately
-managed database.
-Limitations
-Forecast quality is constrained by the available historical data.
-Historical sales may be sparse for individual variants.
-Slow-moving-stock alerts require business review before taking
-action.
-Operational store/location data may be demonstration data rather
-than fields from the original historical dataset.
-The local Flask/SQLite setup is not a production deployment
-configuration.
-Future improvements
-More robust time-series forecasting and model evaluation.
-Improved supplier lead-time and purchase-order recommendations.
-More complete stock-age and product-lifecycle analysis.
-Stronger automated testing and deployment configuration.
-Integration with external barcode scanners, ERP systems, or
-multi-warehouse services.
-Academic project
-Project: Shelfie --- Smart Inventory Management  
-Domain: Data Science using Python  
-Application type: Inventory management web application with data
-analysis and ML-assisted decision support
-Update this section with your course, institution, team members, and
-academic year if required by your submission guidelines.
-License
-No license is specified by default. Add a license file only after
-deciding how you want others to use, modify, and distribute the project.
+
+## 6. Important submission note
+
+The model evaluation is reported from the actual supplied transaction history. Do **not** replace the displayed metrics with invented scores. The dataset is sparse, so R² can be close to zero even when absolute forecast error is small. This is discussed transparently in the project report.
+
+## 7. Project structure
+
+```text
+Smart_Inventory_Submission/
+├── app.py
+├── model.py
+├── inventory.db
+├── bootstrap_db.py
+├── generate_eda_assets.py
+├── requirements.txt
+├── run.bat
+├── run.sh
+├── README.md
+├── PROJECT_REPORT.md
+├── DATA_DICTIONARY.md
+├── VIVA_QA.md
+├── TESTING.md
+├── data/
+├── models/
+├── templates/
+└── static/
+```
+
+
+### Product branding
+The application UI uses the supplied **Shelfie** logo and name. `static/shelfie_brand.png` is used for navigation branding and `static/shelfie_full.png` is used for the login screen and subtle page watermark.
+
+
+## Source code map (for study and viva)
+
+The code has been laid out with consistent indentation, numbered section comments, and readable SQL strings. Start with `CODE_GUIDE.md` for the feature map.
+
+- `app.py`: Flask routes and application features.
+- `model.py`: demand forecasting, anomaly detection, and reorder recommendations.
+- `bootstrap_db.py`: rebuilds the local SQLite database from CSV data.
+- `generate_eda_assets.py`: creates the exploratory-analysis charts.
+- `templates/`: page markup.
+- `static/style.css`: styles, including dark mode.
+- `static/app.js`: theme, modal, assistant, row actions, and scanner behavior.
+
+Formatting is intended to make the existing implementation easier to read; it is not a redesign of the app's features.
